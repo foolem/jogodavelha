@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <string.h>
 
 int menu() {
@@ -20,19 +19,32 @@ int menu() {
 void escolha_simb(char *jog1, char *jog2) {
 	char jogador1;
 	char jogador2;
-	printf("\nEscolha o simbolo do jogador 1: ");
-	scanf("%c", &jogador1);
-	jog1 = &jogador1;
+	int simbjog1 = 0;
+	while (simbjog1 == 0) {
+		printf("\nEscolha o simbolo do jogador 1: ");
+		scanf("%*c%c", &jogador1);
+		if ( (jogador1 == 'x') || ( jogador1 == 'o' )) {
+			simbjog1 = 1;
+		}	
+		else {
+			simbjog1 = 0;
+		}
+	}
+	
+	*jog1 = jogador1;
 	if (jogador1 == 'x') {
 		jogador2 = 'o';
 	}
 	else {
 		jogador2 = 'x';
 	}
-	jog2 = &jogador2;
+	*jog2 = jogador2;
 }
 
 void inicializa_velha() {
+	char velha[3][3];
+	int i;
+	int j;
 	
 }
 
@@ -42,9 +54,8 @@ int verifica_ganhador(char jog) {
 void main() {
 	int escolha = 0;
 	int nivel = 0;
-	char *jogador1;
-	char *jogador2;
-	char letra = 'q';
+	char jogador1;
+	char jogador2;
 	escolha = menu();
 
 	if (escolha == 1) {
@@ -59,9 +70,11 @@ void main() {
 	printf("\nopcao escolhida: %d", escolha);
 	printf("\nnivel escolhido: %d", nivel);
 	
-	escolha_simb(jogador1, jogador2);
-	printf("\njog1 %c", *jogador1);
-	system("pause");
+	escolha_simb(&jogador1, &jogador2);
+	printf("\njog1 \n %c", jogador1);
+	printf("\njog2 \n %c", jogador2);
+	
+	inicializa_velha();
 }
 
 
