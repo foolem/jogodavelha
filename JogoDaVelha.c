@@ -216,7 +216,9 @@ void main() {
 			scanf("%d", &continua);
 			if (continua == 1) {
 				main();
-			}
+			} else {
+				exit(0);
+			} 
 		}
 	}
 }
