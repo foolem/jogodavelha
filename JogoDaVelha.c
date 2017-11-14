@@ -3,7 +3,8 @@
 #include <conio.h>
 
 char tabuleiro[3][3];
-
+void main();
+void jogo_computador(int nivel);
 int menu() {
 	int escolha;
 
@@ -50,7 +51,7 @@ void inicializa_velha() {
 			tabuleiro[i][j] = ' ';
 		}
 	}
-	
+
 	printf("\n       1  2  3\n");
 	printf("\n     1  |   |  ");
 	printf("\n      --|---|--");
@@ -80,8 +81,27 @@ int jogada_usuario(int lin, int col, char jog) {
 	}
 }
 
-void jogada_computador(char jog, int nivel) {
+void jogada_basica(char jogador) {
+	int linha, coluna, erro = 1;
+	do {
+		srand(time(NULL));
 
+		linha = rand()%3;
+		coluna = rand()%3;
+		if (tabuleiro[linha][coluna] == ' '){
+			erro = 0;
+			tabuleiro[linha][coluna] = jogador;
+		} else {
+			erro = 1;
+		}
+	} while (erro != 0);
+
+}
+
+void jogada_computador(char jog, int nivel) {
+	if(nivel == 1) {
+		jogada_basica(jog);
+	}
 }
 
 int verifica_ganhador(char jog) {
@@ -119,6 +139,76 @@ void jogo_ganho(char jog) {
 				exit(0);
 			}
 }
+void jogo_computador(nivel) {
+	char jogador1, jogador2;
+	int jogada, linha, coluna, valida, erro = 1, continua, verifica;
+	
+	escolha_simb(&jogador1, &jogador2);
+	system("cls");
+	inicializa_velha();
+
+	for(jogada=0;jogada<9;jogada++) {
+
+		if(jogada % 2) {
+			do {
+				jogada_computador(jogador2, nivel);
+				system("cls");
+				mostra_velha();
+				verifica = verifica_ganhador(jogador2);
+				if (verifica == 1) {
+					jogo_ganho(jogador2);
+				}
+				erro = 0;
+				
+			} while (erro != 0);
+		}
+	
+		else {
+				do {
+				printf("\nJogador %c: Digite a linha: ", jogador1);
+				scanf("%d", &linha);
+				linha = linha -1;
+				printf("\nJogador %c: Digite a coluna: ", jogador1);
+				scanf("%d", &coluna);
+				coluna = coluna -1;
+
+				valida = jogada_usuario(linha, coluna, jogador1);
+				if(valida == 0) {
+					tabuleiro[linha][coluna] = jogador1;
+					system("cls");
+					mostra_velha();
+					verifica = verifica_ganhador(jogador1);
+					if (verifica == 1) {
+						jogo_ganho(jogador1);
+
+					}
+					erro = 0;
+				}
+				if(valida == 1) {
+					printf("\nOpcao invalida");
+					erro = 1;
+				}
+				if(valida == 2) {
+					printf("\nPosicao ja escolhida");
+					erro = 1;
+				}
+			} while (erro != 0);
+		}
+		if(jogada == 8) {
+			printf("\nDeu velha");
+			printf("\nDeseja jogar mais uma?");
+			printf("\n0 - Nao");
+			printf("\n1 - Sim");
+			scanf("%d", &continua);
+			if (continua == 1) {
+				main();
+			} else {
+				exit(0);
+			}
+		}
+	}
+
+}
 void main() {
 	int escolha, nivel = 0, jogada, linha, coluna, valida, erro = 1, continua, verifica;
 	char jogador1;
@@ -135,9 +225,8 @@ void main() {
 			printf("3 - Avancado\n");
 			scanf("%d", &nivel);
 		}
+		jogo_computador(nivel);
 	}
-	printf("\nopcao escolhida: %d", escolha);
-	printf("\nnivel escolhido: %d", nivel);
 
 	escolha_simb(&jogador1, &jogador2);
 	system("cls");
@@ -154,14 +243,14 @@ void main() {
 				scanf("%d", &coluna);
 				coluna = coluna - 1;
 				valida = jogada_usuario(linha, coluna, jogador2);
-				
+
 				if(valida == 0) {
 					tabuleiro[linha][coluna] = jogador2;
 					system("cls");
 					mostra_velha();
 					verifica = verifica_ganhador(jogador2);
 					if (verifica == 1) {
-						
+
 						jogo_ganho(jogador2);
 					}
 					erro = 0;
@@ -175,7 +264,7 @@ void main() {
 					erro = 1;
 				}
 			} while (erro != 0);
-			
+
 		}
 		else {
 				do {
@@ -185,7 +274,7 @@ void main() {
 				printf("\nJogador %c: Digite a coluna: ", jogador1);
 				scanf("%d", &coluna);
 				coluna = coluna -1;
-								
+
 				valida = jogada_usuario(linha, coluna, jogador1);
 				if(valida == 0) {
 					tabuleiro[linha][coluna] = jogador1;
@@ -194,7 +283,7 @@ void main() {
 					verifica = verifica_ganhador(jogador1);
 					if (verifica == 1) {
 						jogo_ganho(jogador1);
-						
+
 					}
 					erro = 0;
 				}
@@ -206,7 +295,7 @@ void main() {
 					printf("\nPosicao ja escolhida");
 					erro = 1;
 				}
-			} while (erro != 0);		
+			} while (erro != 0);
 		}
 		if(jogada == 8) {
 			printf("\nDeu velha");
@@ -218,7 +307,7 @@ void main() {
 				main();
 			} else {
 				exit(0);
-			} 
+			}
 		}
 	}
 }
