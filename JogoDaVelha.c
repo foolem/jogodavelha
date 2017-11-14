@@ -3,6 +3,7 @@
 #include <conio.h>
 
 char tabuleiro[3][3];
+int primeira=0;
 void main();
 void jogo_computador(int nivel);
 int menu() {
@@ -16,7 +17,7 @@ int menu() {
 	}
 
 	return escolha;
-
+	
 }
 
 void escolha_simb(char *jog1, char *jog2) {
@@ -98,9 +99,166 @@ void jogada_basica(char jogador) {
 
 }
 
+void jogada_intermediaria(char jogador) {
+	int linha, coluna, erro = 1, i, j, h = 0, jog=0;
+	char humano;
+	
+	if (jogador == 'o') {
+		humano = 'x';
+	} else {
+		humano = 'o';
+	}
+	
+		
+		if (primeira == 0 && jog==0) {
+			primeira++;
+			do {
+				srand(time(NULL));
+
+				linha = rand()%3;
+				coluna = rand()%3;
+				if (tabuleiro[linha][coluna] == ' '){
+					erro = 0;
+					tabuleiro[linha][coluna] = jogador;
+					jog=1;
+				} else {
+					erro = 1;
+				}
+			} while (erro != 0);
+
+		}
+				
+		//linha 0
+		if (tabuleiro[0][0] == humano && tabuleiro[0][1] == ' ' && tabuleiro[0][2] == ' ' && jog==0) 
+		{
+			tabuleiro[0][2] = jogador;
+			jog=1;
+		}
+		if (tabuleiro[0][1] == humano && tabuleiro[0][0] == ' ' && tabuleiro[0][2] == ' ' && jog==0) 
+		{
+			tabuleiro[0][0] = jogador;
+			jog=1;
+		}
+		else
+			{
+				if (tabuleiro[0][2] == humano && tabuleiro[0][1] == ' ' && tabuleiro[0][0] == ' ') {
+			tabuleiro[0][1] = jogador;	
+			} 
+		}
+
+		else
+			{
+				if (tabuleiro[1][0] == humano && tabuleiro[1][1] == ' ' && tabuleiro[1][2] == ' ') {
+			tabuleiro[1][2] = jogador;
+			} 
+		}
+		else
+			{
+				if (tabuleiro[1][1] == humano && tabuleiro[1][0] == ' ' && tabuleiro[1][2] == ' ') {
+			tabuleiro[1][0] = jogador;
+			} 
+		}
+		else
+			{
+				if (tabuleiro[1][2] == humano && tabuleiro[1][1] == ' ' && tabuleiro[1][0] == ' ') {
+			tabuleiro[1][1] = jogador;
+			} 
+		}
+
+		else
+			{
+				if (tabuleiro[2][0] == humano && tabuleiro[2][1] == ' ' && tabuleiro[2][2] == ' ') {
+			tabuleiro[2][2] = jogador;
+			} 
+		}
+		else
+			{
+				if (tabuleiro[2][1] == humano && tabuleiro[2][0] == ' ' && tabuleiro[2][2] == ' ') {
+			tabuleiro[2][0] = jogador;
+			} 
+		}
+		else
+			{
+
+			} if (tabuleiro[2][2] == humano && tabuleiro[2][1] == ' ' && tabuleiro[2][0] == ' ') {
+			tabuleiro[2][1] = jogador;
+		}
+
+
+
+		else
+			{
+
+			} if (tabuleiro[0][0] == humano && tabuleiro[0][1] == humano){
+			tabuleiro[0][2] = jogador;
+		}
+		else
+			{
+
+			} if (tabuleiro[0][1] == humano && tabuleiro[0][2] == humano){
+			tabuleiro[0][0] = jogador;
+		}
+		else
+			{
+
+			} if (tabuleiro[0][0] == humano && tabuleiro[0][2] == humano){
+			tabuleiro[0][1] = jogador;
+		}
+		
+		//linha 1
+		else
+			{
+
+			} if (tabuleiro[1][0] == humano && tabuleiro[1][1] == humano){
+			tabuleiro[1][2] = jogador;
+		}
+		else
+			{
+
+			} if (tabuleiro[1][1] == humano && tabuleiro[1][2] == humano){
+			tabuleiro[1][0] = jogador;
+		}
+		else
+			{
+
+			} if (tabuleiro[1][0] == humano && tabuleiro[1][2] == humano){
+			tabuleiro[1][1] = jogador;
+		}
+		
+		//linha 2
+		else
+			{
+
+			} if (tabuleiro[2][0] == humano && tabuleiro[2][1] == humano){
+			tabuleiro[2][2] = jogador;
+		}
+		else
+			{
+
+			} if (tabuleiro[2][1] == humano && tabuleiro[2][2] == humano){
+			tabuleiro[2][0] = jogador;
+		}
+		else
+			{
+
+			} if (tabuleiro[2][0] == humano && tabuleiro[2][2] == humano){
+			tabuleiro[2][1] = jogador;
+		}		
+		}
+
+	
+	
+				
+		
+		
+}
+
 void jogada_computador(char jog, int nivel) {
 	if(nivel == 1) {
 		jogada_basica(jog);
+	}
+	if(nivel == 2) {
+		jogada_intermediaria(jog);
 	}
 }
 
@@ -131,9 +289,10 @@ void jogo_ganho(char jog) {
 	printf("\n\a\t\tJogador %c, VOCE VENCEU!!!", jog);
 	printf("\nDeseja jogar mais uma?");
 			printf("\n0 - Nao");
-			printf("\n1 - Sim");
+			printf("\n1 - Sim:\n");
 			scanf("%d", &continua);
 			if (continua == 1) {
+				primeira--;
 				main();
 			} else {
 				exit(0);
@@ -143,6 +302,7 @@ void jogo_computador(nivel) {
 	char jogador1, jogador2;
 	int jogada, linha, coluna, valida, erro = 1, continua, verifica;
 	
+	system("cls");
 	escolha_simb(&jogador1, &jogador2);
 	system("cls");
 	inicializa_velha();
@@ -198,8 +358,8 @@ void jogo_computador(nivel) {
 			printf("\nDeu velha");
 			printf("\nDeseja jogar mais uma?");
 			printf("\n0 - Nao");
-			printf("\n1 - Sim");
-			scanf("%d", &continua);
+			printf("\n1 - Sim:");
+			scanf("\n%d\n", &continua);
 			if (continua == 1) {
 				main();
 			} else {
@@ -216,7 +376,7 @@ void main() {
 
 	system("cls");
 	escolha = menu();
-
+	system("cls");
 	if (escolha == 1) {
 		while ((nivel > 3) || (nivel < 1)) {
 			printf("Escolha o nivel\n");
@@ -227,6 +387,7 @@ void main() {
 		}
 		jogo_computador(nivel);
 	}
+	system("cls");
 
 	escolha_simb(&jogador1, &jogador2);
 	system("cls");
@@ -302,7 +463,7 @@ void main() {
 			printf("\nDeseja jogar mais uma?");
 			printf("\n0 - Nao");
 			printf("\n1 - Sim");
-			scanf("%d", &continua);
+			scanf("\n%d", &continua);
 			if (continua == 1) {
 				main();
 			} else {
